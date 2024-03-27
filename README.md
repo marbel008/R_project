@@ -6,7 +6,10 @@ This project is about the development of a formula to estimate a bovine embryoni
 To run this project, the user needs to input the RNA sequencing file derived from an experiment using the bovine as specie. 
 
 ## Required Datasets
-The function should executed using the "dataTrain.txt" file and the "Biomarker_bo "found in the datasets folder. An example dataset is inside the Example folder (both inside the data folder)
+The function should executed using the "dataTrain.txt" file and the "Biomarker_bo.txt" found in the datasets folder. An example dataset is inside the Example folder (both inside the data folder)
+
+##Results
+Results will be find in the results folder
 
 ```
 .
@@ -16,6 +19,7 @@ The function should executed using the "dataTrain.txt" file and the "Biomarker_b
 ├── data               <- All project data, ignored by git
 │   ├── datasets       <- The required dataset for training the model
 │   ├── example        <- Example datasets
+├── results
 ```
 
 ## Required R packages

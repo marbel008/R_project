@@ -6,6 +6,7 @@ library(bapred)
 data <- read.table("GSE159891_dataset.txt", header = TRUE, sep = "\t", row.names = 1)
 
 #required datasets can be found in /data/datasets
+setwd("data/datasets")
 df_tr <- read.table("Data_BlastoIVV_TRAINING.txt", header = TRUE, sep = "\t", row.names = 1)
 bio <- read.table("Biomarkers_Bo.txt",header = TRUE, sep = "\t", row.names = 1)
 
@@ -61,6 +62,8 @@ embryo_index <- function(df) {
 
 ECI <- embryo_index(data)
 
+setwd("../..")
+setwd("results")
 write.table(ECI, "ECI_values.txt", sep="\t", col.names=NA)
 
 
