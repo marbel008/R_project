@@ -1,5 +1,3 @@
-library(scales)
-library(DESeq2)
 library(bapred)
 
 embryo_index <- function(df) {
@@ -19,7 +17,11 @@ embryo_index <- function(df) {
         if (any(row.names(df) == bio$Entrez[1]) == TRUE) {
           df <- df[as.character(bio$Entrez), ]
         } else {
-          warning("The IDs in the dataset should be ENSEMBL, Entrez or Official Symbol")
+          if (any(row.names(df) == bio$RefSeq[1]) == TRUE) {
+            df <- df[bio$RefSeq, ]
+          } else {
+            warning("The IDs in the dataset should be ENSEMBL, Entrez, Official Symbol or RefSeq mRNA")
+          }
         }
       }
     }
@@ -30,7 +32,7 @@ embryo_index <- function(df) {
     df <- df[, !zero_cols]
   }
   if (all(sapply(df, is.integer)) == TRUE) {
-    df_t <- data.frame(varianceStabilizingTransformation(as.matrix(df), fitType = "local"))
+    df_t <- data.frame(log2(df))
   } else {
     if (any(df < 0, na.rm = TRUE)) {
       min_val <- min(df, na.rm = TRUE)
@@ -39,13 +41,6 @@ embryo_index <- function(df) {
       df_t <- df
     }
   }
-  df_sc <- data.frame(
-    lapply(df_t[sapply(df_t, is.numeric)],
-      rescale,
-      to = c(4.056, 8.453)
-    ),
-    row.names = row.names(df_t)
-  )
 
   tdf_t <- t(df_t)
   tdf_tr <- t(df_tr)
@@ -63,7 +58,6 @@ embryo_index <- function(df) {
   return(sums_coeff)
 }
 
-
 # required datasets can be found in /data/required_datasets
 setwd("data/required_datasets")
 df_tr <- read.table("Data_BlastoIVV_TRAINING.txt", header = TRUE, sep = "\t", row.names = 1)
@@ -71,15 +65,17 @@ bio <- read.table("Biomarkers_Bo.txt", header = TRUE, sep = "\t", row.names = 1)
 
 # example datasets can be found in /data/query_datasets
 setwd("../query_datasets")
-data <- read.table("GSE56513_EmbryoStages.txt", header = TRUE, sep = "\t", row.names = 1)
+data <- read.table("GSE130954_BlastoIVT_PR.txt", header = TRUE, sep = "\t", row.names = 1)
 
-###Only run for PCR Values (dCT between Biomarker and HouseKeeping gene)####
-data <- read.table("dCT_qRTPCT_dummy.txt", header = TRUE, sep = "\t", row.names = 1)
-data <- -log(data, 10)
+### Only run for PCR Values (dCT between Biomarker and HouseKeeping gene)####
+### Use Gene Official Symbols as Gene IDs#####
+# setwd("../query_datasets")
+# data <- read.table("dCT_qRTPCT_dummy.txt", header = TRUE, sep = "\t", row.names = 1)
+# all(row.names(data)==bio$Symbol) #This should return TRUE. Otherwise, check that the Genes names are the same, and in the same order, than in the column named "Symbol" in the Biomarkers_Bo.txt file (inside data/required_dataset)
+# data <- -log(data, 10)
 
-#Output ECI
-ECI <- embryo_index(data)
+# Output ECI
+ECI <- embryo_index(data); View(ECI)
 
 setwd("../../results")
-write.table(ECI, "ECI_values.txt", sep = "\t", col.names = NA)
-
+write.table(ECI, "ECI_Values.txt", sep = "\t", col.names = NA)

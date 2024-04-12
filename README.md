@@ -1,40 +1,33 @@
 # ECI Project
 
-This project is about the development of a formula to estimate a bovine embryonic competence index based on the expression of eight biomarker genes.
+This project is about a function to estimate a bovine embryonic competence index based on the expression of eight biomarker genes.
 
 ## Project Structure
-To run this project, the user needs to input the RNA sequencing file derived from an experiment using the bovine as specie. 
-
-## Required Datasets
-The function should executed using the "dataTrain.txt" file and the "Biomarker_bo.txt" found in the datasets folder. An example dataset is inside the Example folder (both inside the data folder)
-
-##Results
-Results will be find in the results folder
-
 ```
 .
 ├── .gitignore
 ├── LICENSE
 ├── README.md
-├── data               <- All project data, ignored by git
-│   ├── datasets       <- The required dataset for training the model
-│   ├── example        <- Example datasets
+├── data               
+│   ├── required_datasets       <- The required dataset for training the model
+│   ├── query_ datasets         <- Example datasets
 ├── results
 ```
 
 ## Required R packages
-library(scales)
-library(DESeq2)
 library(bapred)
 
-Enter the following if (any) of these packages are not installed: 
-install.packages("scales")
+Enter the following if this package is not installed: 
 install.packages("bapred")
 
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("DESeq2")
 
+## Instructions  
+R and RStudio are required to be installed.
+Extract the files in a known directory. 
+The user should click on the .Rproj file, which will open Rstudio, and access the function by clicking on the “FormulaECI.R” file, in the Files tab. The formula requires the bapred package. 
+After running the formula, the required datasets should be loaded into the environment. The users can add their own dataset to the “query_datasets” folder and change the name of the example dataset (“GSE130954_BlastoIVT_PR.txt”) to the corresponding name of the dataset. The “query_datasets” folder contains several files as examples, including a dummy qRT-PCR dataset. 
+After loading the dataset of interest into the R environment, the function can be applied by running “embryo_index(data)”. The function will output a table with the calculated ECI for each sample in the query dataset. 
+A word of caution is that the formula requires the expression of the eight biomarker genes to calculate the ECI. Therefore, if any sample has a zero value in any of these genes, the function will generate a warning and the sample will be removed.
 
 
 ## citation
