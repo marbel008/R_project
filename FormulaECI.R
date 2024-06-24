@@ -64,15 +64,10 @@ df_tr <- read.table("Data_BlastoIVV_TRAINING.txt", header = TRUE, sep = "\t", ro
 bio <- read.table("Biomarkers_Bo.txt", header = TRUE, sep = "\t", row.names = 1)
 
 # example datasets can be found in /data/query_datasets
+# include the dataset of interest in that folder (/data/query_datasets) 
+# replace "GSE130954_BlastoIVT_PR.txt" for the name corresponding to dataset of interest
 setwd("../query_datasets")
 data <- read.table("GSE130954_BlastoIVT_PR.txt", header = TRUE, sep = "\t", row.names = 1)
-
-### Only run for PCR Values (dCT between Biomarker and HouseKeeping gene)####
-### Use Gene Official Symbols as Gene IDs#####
-# setwd("../query_datasets")
-# data <- read.table("dCT_qRTPCT_dummy.txt", header = TRUE, sep = "\t", row.names = 1)
-# all(row.names(data)==bio$Symbol) #This should return TRUE. Otherwise, check that the Genes names are the same, and in the same order, than in the column named "Symbol" in the Biomarkers_Bo.txt file (inside data/required_dataset)
-# data <- -log(data, 10)
 
 # Output ECI
 ECI <- embryo_index(data); View(ECI)

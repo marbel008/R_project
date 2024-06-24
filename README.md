@@ -25,7 +25,7 @@ install.packages("bapred")
 R and RStudio are required to be installed.
 Extract the files in a known directory. 
 The user should click on the .Rproj file, which will open Rstudio, and access the function by clicking on the “FormulaECI.R” file, in the Files tab. The formula requires the bapred package. 
-After running the formula, the required datasets should be loaded into the environment. The users can add their own dataset to the “query_datasets” folder and change the name of the example dataset (“GSE130954_BlastoIVT_PR.txt”) to the corresponding name of the dataset. The “query_datasets” folder contains several files as examples, including a dummy qRT-PCR dataset. 
+After running the formula, the required datasets should be loaded into the environment. The users can add their own dataset to the “query_datasets” folder and change the name of the example dataset (“GSE130954_BlastoIVT_PR.txt”) to the corresponding name of the dataset. The “query_datasets” folder contains several files as examples. 
 After loading the dataset of interest into the R environment, the function can be applied by running “embryo_index(data)”. The function will output a table with the calculated ECI for each sample in the query dataset. 
 A word of caution is that the formula requires the expression of the eight biomarker genes to calculate the ECI. Therefore, if any sample has a zero value in any of these genes, the function will generate a warning and the sample will be removed.
 
